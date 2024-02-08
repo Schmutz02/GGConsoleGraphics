@@ -399,6 +399,16 @@ void GG::ConsoleApp::PutChar(const wchar_t character, const uint16_t x, const ui
 
 void GG::ConsoleApp::PutPixel(const uint16_t x, const uint16_t y)
 {
+	PutPixel(x, y, FULL_BLOCK);
+}
+
+void GG::ConsoleApp::PutPixelBackground(const uint16_t x, const uint16_t y)
+{
+	PutPixel(x, y, L' ');
+}
+
+void GG::ConsoleApp::PutPixel(const uint16_t x, const uint16_t y, const wchar_t character)
+{
 	assert(x < m_BufferWidth);
 	assert(y < m_BufferHeight);
 
@@ -406,15 +416,25 @@ void GG::ConsoleApp::PutPixel(const uint16_t x, const uint16_t y)
 		return;
 
 	const uint32_t index = y * m_BufferWidth + x;
-	UpdateBuffer(index, FULL_BLOCK);
+	UpdateBuffer(index, character);
 }
 
 void GG::ConsoleApp::PutRectFill(const uint16_t x, const uint16_t y, const uint16_t width, const uint16_t height)
 {
+	PutRectFill(x, y, width, height, FULL_BLOCK);
+}
+
+void GG::ConsoleApp::PutRectFillBackground(const uint16_t x, const uint16_t y, const uint16_t width, const uint16_t height)
+{
+	PutRectFill(x, y, width, height, L' ');
+}
+
+void GG::ConsoleApp::PutRectFill(const uint16_t x, const uint16_t y, const uint16_t width, const uint16_t height, const wchar_t character)
+{
 	assert(x < m_BufferWidth);
-	assert(x + width < m_BufferWidth);
+	assert(x + width <= m_BufferWidth);
 	assert(y < m_BufferHeight);
-	assert(y + height < m_BufferHeight);
+	assert(y + height <= m_BufferHeight);
 
 	if (x >= m_BufferWidth || y >= m_BufferHeight)
 		return;
@@ -429,7 +449,7 @@ void GG::ConsoleApp::PutRectFill(const uint16_t x, const uint16_t y, const uint1
 	for (uint32_t col = x; col < right; col++)
 	{
 		const uint32_t index = row * m_BufferWidth + col;
-		UpdateBuffer(index, FULL_BLOCK);
+		UpdateBuffer(index, character);
 	}
 }
 

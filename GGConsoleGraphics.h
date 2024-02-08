@@ -211,7 +211,9 @@ namespace GG
 		void PutChar(wchar_t character, uint16_t x, uint16_t y);
 
 		void PutPixel(uint16_t x, uint16_t y);
+		void PutPixelBackground(uint16_t x, uint16_t y);
 		void PutRectFill(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+		void PutRectFillBackground(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 
 		virtual void Init() = 0;
 		virtual void Update(float deltaTime) = 0;
@@ -219,6 +221,8 @@ namespace GG
 
 	private:
 		void Clear();
+		void PutPixel(uint16_t x, uint16_t y, wchar_t character);
+		void PutRectFill(uint16_t x, uint16_t y, uint16_t width, uint16_t height, wchar_t character);
 		void UpdateBuffer(uint32_t index, wchar_t character);
 		void InputProc(INPUT_RECORD record);
 
